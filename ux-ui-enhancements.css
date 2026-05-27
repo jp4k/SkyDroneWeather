@@ -1,0 +1,3240 @@
+:root {
+  --ux-bg: rgba(6, 12, 24, 0.78);
+  --ux-bg-strong: rgba(8, 15, 30, 0.94);
+  --ux-border: rgba(148, 163, 184, 0.22);
+  --ux-border-strong: rgba(56, 189, 248, 0.44);
+  --ux-text: #f8fafc;
+  --ux-muted: #94a3b8;
+  --ux-soft: #cbd5e1;
+  --ux-blue: #2563eb;
+  --ux-cyan: #38bdf8;
+  --ux-green: #22c55e;
+  --ux-yellow: #f59e0b;
+  --ux-red: #ef4444;
+  --ux-shadow: 0 18px 46px rgba(2, 6, 23, 0.34);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button,
+.climate-action-btn,
+.layer-btn,
+.weather-layer-btn,
+.chart-mode-btn,
+.chart-range-btn,
+.satellite-btn {
+  position: relative;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+.climate-action-btn:focus-visible,
+.layer-btn:focus-visible,
+.weather-layer-btn:focus-visible,
+.chart-mode-btn:focus-visible,
+.chart-range-btn:focus-visible,
+.satellite-btn:focus-visible,
+.ux-icon-btn:focus-visible,
+.ux-bottom-nav button:focus-visible,
+.ux-layer-toggle:focus-visible {
+  outline: 2px solid var(--ux-cyan);
+  outline-offset: 2px;
+}
+
+.ux-ripple {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.34);
+  transform: translate(-50%, -50%) scale(1);
+  animation: ux-ripple 520ms ease-out forwards;
+}
+
+@keyframes ux-ripple {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(18);
+  }
+}
+
+.loading-overlay {
+  background:
+    linear-gradient(110deg, rgba(8, 15, 30, 0.96), rgba(15, 23, 42, 0.92), rgba(8, 15, 30, 0.96));
+}
+
+.loading-spinner {
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.22);
+}
+
+.loading-text::after {
+  content: '';
+  display: block;
+  width: min(280px, 72vw);
+  height: 10px;
+  margin: 18px auto 0;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(148, 163, 184, 0.12), rgba(255, 255, 255, 0.28), rgba(148, 163, 184, 0.12));
+  background-size: 220% 100%;
+  animation: ux-shimmer 1.25s linear infinite;
+}
+
+@keyframes ux-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  backdrop-filter: blur(18px);
+}
+
+.tabs button {
+  min-height: 44px;
+}
+
+.tabs button.active {
+  background: linear-gradient(135deg, #0f766e, #2563eb);
+}
+
+.content {
+  animation: ux-tab-in 220ms ease both;
+}
+
+@keyframes ux-tab-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#clima .climate-top-grid {
+  grid-template-columns: minmax(330px, 400px) minmax(0, 1fr);
+}
+
+#clima .climate-left-column {
+  position: sticky;
+  top: 82px;
+  max-height: calc(100vh - 98px);
+  overflow: auto;
+  padding-right: 2px;
+  scrollbar-width: thin;
+}
+
+#clima .panel,
+#clima .card,
+.flight-status-panel,
+.location-card,
+.analysis-card,
+.recommendations-card,
+.weather-metric-card,
+.satellite-floating-card,
+.satellite-panel,
+.satellite-map-card {
+  border-radius: 8px;
+}
+
+#clima .climate-command-panel,
+#clima .climate-overview-panel,
+#clima .climate-chart-panel,
+#clima .climate-map-panel-advanced {
+  border: 1px solid rgba(96, 165, 250, 0.18);
+}
+
+#clima .climate-map-panel-advanced {
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(7, 13, 26, 0.94), rgba(11, 18, 32, 0.98));
+}
+
+#clima .climate-map-panel-advanced > .panel-header-line,
+#clima .climate-map-panel-advanced > .climate-map-toolbar,
+#clima .climate-map-panel-advanced > .map-control-strip,
+#clima .climate-map-panel-advanced > .map-note {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+#clima .climate-map-panel-advanced > .panel-header-line {
+  padding-top: 18px;
+}
+
+#clima .climate-map-panel-advanced > .map-note {
+  padding-bottom: 18px;
+}
+
+.map-viewport-shell {
+  position: relative;
+  min-height: 620px;
+  isolation: isolate;
+  background: #07111f;
+}
+
+#clima #map {
+  height: min(72vh, 760px);
+  min-height: 620px;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.map-viewport-shell .leaflet-control-zoom a {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  color: #e2e8f0;
+  background: rgba(8, 15, 30, 0.84);
+  border-color: rgba(148, 163, 184, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.map-viewport-shell .leaflet-control-scale-line {
+  color: #f8fafc;
+  background: rgba(8, 15, 30, 0.78);
+  border-color: rgba(226, 232, 240, 0.8);
+  text-shadow: none;
+}
+
+.map-ux-hud,
+.mission-dashboard,
+.ux-map-context-menu,
+.ux-quick-guide,
+.mission-bottom-sheet,
+.ux-layer-bank {
+  color: var(--ux-text);
+  border: 1px solid var(--ux-border);
+  background: var(--ux-bg);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--ux-shadow);
+}
+
+.map-ux-hud {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  z-index: 520;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  max-width: calc(100% - 28px);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.ux-hud-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(118px, 1fr));
+  gap: 8px;
+}
+
+.ux-hud-item,
+.ux-dashboard-metric,
+.ux-weather-card,
+.ux-sheet-card,
+.ux-source-card,
+.ux-mini-stat {
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(15, 23, 42, 0.66);
+  border-radius: 8px;
+}
+
+.ux-hud-item {
+  min-height: 50px;
+  padding: 8px 10px;
+}
+
+.ux-hud-label,
+.ux-dashboard-label,
+.ux-source-label,
+.ux-mini-label,
+.ux-sheet-kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ux-muted);
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ux-hud-value,
+.ux-dashboard-value,
+.ux-source-value,
+.ux-mini-value {
+  color: var(--ux-text);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.ux-hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ux-icon-btn,
+.ux-layer-toggle,
+.ux-context-action,
+.ux-guide-action,
+.ux-mode-toggle {
+  min-height: 40px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.78);
+  color: var(--ux-soft);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.ux-icon-btn {
+  width: 40px;
+  padding: 0;
+}
+
+.ux-icon-btn:hover,
+.ux-layer-toggle:hover,
+.ux-context-action:hover,
+.ux-guide-action:hover,
+.ux-mode-toggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--ux-border-strong);
+  color: #fff;
+}
+
+.ux-icon-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+  transform: none;
+}
+
+.mission-dashboard {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 520;
+  width: min(380px, calc(100% - 28px));
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.ux-dashboard-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.ux-dashboard-title {
+  margin: 0;
+  color: var(--ux-text);
+  font-size: 15px;
+}
+
+.ux-dashboard-subtitle {
+  display: block;
+  margin-top: 3px;
+  color: var(--ux-muted);
+  font-size: 12px;
+}
+
+.ux-flight-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #dcfce7;
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.ux-flight-chip::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ux-green);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
+}
+
+.ux-flight-chip.warning {
+  color: #fef3c7;
+  background: rgba(245, 158, 11, 0.16);
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.ux-flight-chip.warning::before {
+  background: var(--ux-yellow);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.14);
+}
+
+.ux-flight-chip.danger {
+  color: #fee2e2;
+  background: rgba(239, 68, 68, 0.16);
+  border-color: rgba(239, 68, 68, 0.34);
+}
+
+.ux-flight-chip.danger::before {
+  background: var(--ux-red);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14);
+}
+
+.ux-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ux-dashboard-metric {
+  min-height: 72px;
+  padding: 10px;
+}
+
+.ux-dashboard-meter {
+  height: 6px;
+  margin-top: 9px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.ux-dashboard-meter span {
+  display: block;
+  width: var(--value, 0%);
+  height: 100%;
+  background: linear-gradient(90deg, var(--ux-red), var(--ux-yellow), var(--ux-green));
+  transition: width 380ms ease;
+}
+
+.ux-layer-bank {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 520;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: min(640px, calc(100% - 28px));
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.ux-layer-toggle {
+  min-height: 38px;
+  padding: 8px 11px;
+}
+
+.ux-layer-toggle.is-active {
+  color: #fff;
+  border-color: rgba(56, 189, 248, 0.52);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.62), rgba(14, 165, 233, 0.34));
+}
+
+.ux-map-context-menu {
+  position: absolute;
+  z-index: 700;
+  display: none;
+  min-width: 210px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.ux-map-context-menu.is-open {
+  display: grid;
+  gap: 6px;
+  animation: ux-menu-in 140ms ease both;
+}
+
+@keyframes ux-menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ux-context-action {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.ux-context-action.danger {
+  color: #fecaca;
+  border-color: rgba(239, 68, 68, 0.26);
+}
+
+.ux-context-kbd {
+  color: var(--ux-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ux-quick-guide {
+  position: absolute;
+  left: 50%;
+  bottom: 86px;
+  z-index: 560;
+  width: min(520px, calc(100% - 28px));
+  padding: 14px;
+  border-radius: 8px;
+  transform: translateX(-50%);
+}
+
+.ux-quick-guide.is-hidden {
+  display: none;
+}
+
+.ux-quick-guide h3 {
+  margin: 0 0 6px;
+  color: var(--ux-text);
+  font-size: 16px;
+}
+
+.ux-quick-guide p {
+  margin: 0 0 12px;
+  color: var(--ux-soft);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.ux-guide-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ux-guide-pill {
+  padding: 7px 9px;
+  border-radius: 999px;
+  color: var(--ux-soft);
+  background: rgba(15, 23, 42, 0.68);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ux-guide-action {
+  margin-left: auto;
+  padding: 8px 12px;
+  color: #fff;
+  border-color: rgba(34, 197, 94, 0.38);
+  background: rgba(34, 197, 94, 0.18);
+}
+
+.mission-bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1200;
+  display: none;
+  max-height: min(72vh, 620px);
+  padding: 8px 14px 92px;
+  border-radius: 16px 16px 0 0;
+  transform: translateY(calc(100% - 82px));
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mission-bottom-sheet.is-hidden,
+.ux-bottom-nav.is-hidden {
+  display: none !important;
+}
+
+.mission-bottom-sheet.is-expanded {
+  transform: translateY(0);
+}
+
+.ux-sheet-handle {
+  display: block;
+  width: 42px;
+  height: 5px;
+  margin: 3px auto 12px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(226, 232, 240, 0.5);
+  cursor: grab;
+}
+
+.ux-sheet-section {
+  display: none;
+  gap: 12px;
+}
+
+.ux-sheet-section.is-active {
+  display: grid;
+  animation: ux-tab-in 180ms ease both;
+}
+
+.ux-sheet-title {
+  margin: 0;
+  color: var(--ux-text);
+  font-size: 16px;
+}
+
+.ux-sheet-grid,
+.ux-weather-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ux-sheet-card,
+.ux-weather-card,
+.ux-source-card {
+  min-height: 86px;
+  padding: 12px;
+}
+
+.ux-sheet-card p,
+.ux-weather-card p,
+.ux-source-card p {
+  margin: 6px 0 0;
+  color: var(--ux-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ux-bottom-nav {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  z-index: 1300;
+  display: none;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  background: rgba(4, 10, 20, 0.92);
+  box-shadow: 0 18px 38px rgba(2, 6, 23, 0.46);
+  backdrop-filter: blur(18px);
+}
+
+.ux-bottom-nav button {
+  min-height: 52px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ux-muted);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ux-bottom-nav button::before {
+  content: attr(data-symbol);
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ux-soft);
+  font-size: 15px;
+}
+
+.ux-bottom-nav button.is-active {
+  color: #fff;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.34), rgba(14, 165, 233, 0.16));
+}
+
+.ux-source-compare {
+  display: grid;
+  gap: 10px;
+}
+
+.ux-source-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ux-source-card.is-windy {
+  border-color: rgba(56, 189, 248, 0.28);
+}
+
+.ux-source-card.is-ventusky {
+  border-color: rgba(34, 197, 94, 0.28);
+}
+
+.ux-confidence-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.62);
+}
+
+.ux-confidence-badge {
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #dcfce7;
+  background: rgba(34, 197, 94, 0.18);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ux-confidence-badge.medium {
+  color: #fef3c7;
+  background: rgba(245, 158, 11, 0.18);
+}
+
+.ux-confidence-badge.low {
+  color: #fee2e2;
+  background: rgba(239, 68, 68, 0.18);
+}
+
+.ux-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ux-mini-stat {
+  min-height: 68px;
+  padding: 10px;
+}
+
+.ux-mode-group {
+  display: flex;
+  gap: 8px;
+}
+
+.ux-mode-toggle {
+  flex: 1;
+  padding: 9px 10px;
+}
+
+.ux-mode-toggle.is-active {
+  color: #fff;
+  border-color: rgba(56, 189, 248, 0.46);
+  background: rgba(37, 99, 235, 0.32);
+}
+
+.ux-toast-stack {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1600;
+  display: grid;
+  gap: 8px;
+  width: min(360px, calc(100vw - 36px));
+}
+
+.ux-toast {
+  padding: 12px 14px;
+  border: 1px solid var(--ux-border);
+  border-radius: 8px;
+  color: var(--ux-text);
+  background: var(--ux-bg-strong);
+  box-shadow: var(--ux-shadow);
+  animation: ux-toast-in 220ms ease both;
+}
+
+@keyframes ux-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ux-marker {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  color: #fff;
+  background: #2563eb;
+  border: 2px solid #fff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.34);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ux-marker.gcp {
+  background: #22c55e;
+}
+
+.ux-marker.photo {
+  background: #f59e0b;
+}
+
+.ux-marker.is-selected {
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.26), 0 10px 24px rgba(15, 23, 42, 0.38);
+}
+
+.ux-wind-arrow {
+  width: 26px;
+  height: 26px;
+  color: #dbeafe;
+  filter: drop-shadow(0 4px 8px rgba(2, 6, 23, 0.42));
+  animation: ux-wind-pulse 1.8s ease-in-out infinite;
+}
+
+.ux-wind-arrow::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 2px auto 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 22px solid rgba(56, 189, 248, 0.86);
+}
+
+@keyframes ux-wind-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.ux-grid-line {
+  stroke-dasharray: 6 8;
+}
+
+.ux-mission-line {
+  stroke-dasharray: 9 8;
+  animation: ux-line-draw 900ms ease both;
+}
+
+@keyframes ux-line-draw {
+  from {
+    stroke-dashoffset: 90;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ux-dragging-mission .map-viewport-shell {
+  cursor: move;
+}
+
+.ux-pro-mode .ux-quick-guide,
+.ux-pro-mode .ux-sheet-kicker {
+  display: none;
+}
+
+.drone-container {
+  max-width: 1720px;
+}
+
+#drone-map {
+  min-height: 300px;
+  border: 1px solid rgba(96, 165, 250, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.flight-status-panel {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.analysis-card,
+.location-card,
+.recommendations-card,
+.weather-metric-card,
+.update-timestamp {
+  background: linear-gradient(180deg, rgba(12, 20, 36, 0.94), rgba(8, 13, 24, 0.96));
+  border-color: rgba(96, 165, 250, 0.16);
+  box-shadow: 0 20px 42px rgba(2, 6, 23, 0.28);
+}
+
+.analysis-item,
+.coord-box,
+.recommendation-item {
+  border-radius: 8px;
+}
+
+@media (max-width: 1400px) {
+  #clima .climate-left-column {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .mission-dashboard {
+    width: min(420px, calc(100% - 28px));
+  }
+}
+
+@media (max-width: 980px) {
+  .tabs {
+    overflow-x: auto;
+    flex-direction: row;
+    padding: 8px 10px;
+  }
+
+  .tabs button {
+    flex: 0 0 auto;
+    min-width: 116px;
+    padding: 10px 14px;
+  }
+
+  .content {
+    padding: 12px;
+  }
+
+  #clima .climate-top-grid,
+  #clima .climate-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #clima .climate-right-column {
+    order: -1;
+  }
+
+  .map-viewport-shell {
+    min-height: calc(100dvh - 146px);
+  }
+
+  #clima #map {
+    height: calc(100dvh - 146px);
+    min-height: 540px;
+  }
+
+  .map-ux-hud {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    flex-direction: column;
+  }
+
+  .ux-hud-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ux-hud-actions {
+    justify-content: flex-end;
+  }
+
+  .mission-dashboard {
+    top: auto;
+    right: 10px;
+    bottom: 96px;
+    left: 10px;
+    width: auto;
+  }
+
+  .ux-dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ux-layer-bank {
+    display: none;
+  }
+
+  .ux-quick-guide {
+    bottom: 176px;
+  }
+
+  .mission-bottom-sheet,
+  .ux-bottom-nav {
+    display: grid;
+  }
+
+  .ux-toast-stack {
+    right: 12px;
+    bottom: 86px;
+  }
+
+  .weather-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #drone .drone-main-grid,
+  #drone .analysis-grid,
+  #drone .coords-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #drone-map {
+    height: 360px;
+  }
+}
+
+@media (max-width: 680px) {
+  body {
+    padding-bottom: 76px;
+  }
+
+  .content {
+    padding: 8px;
+  }
+
+  .tabs {
+    top: 0;
+  }
+
+  #clima .climate-shell {
+    gap: 14px;
+  }
+
+  #clima .climate-map-panel-advanced > .panel-header-line,
+  #clima .climate-map-panel-advanced > .climate-map-toolbar,
+  #clima .climate-map-panel-advanced > .map-control-strip,
+  #clima .climate-map-panel-advanced > .map-note {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .map-viewport-shell {
+    margin-left: -8px;
+    margin-right: -8px;
+    min-height: calc(100dvh - 130px);
+  }
+
+  #clima #map {
+    height: calc(100dvh - 130px);
+    min-height: 520px;
+  }
+
+  .ux-hud-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ux-hud-item {
+    min-height: 42px;
+    padding: 7px 9px;
+  }
+
+  .ux-hud-actions {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ux-icon-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .mission-dashboard {
+    display: none;
+  }
+
+  .ux-sheet-grid,
+  .ux-weather-grid,
+  .ux-source-grid,
+  .ux-mini-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ux-bottom-nav {
+    left: 8px;
+    right: 8px;
+    gap: 4px;
+    padding: 7px;
+  }
+
+  .ux-bottom-nav button {
+    min-height: 54px;
+    font-size: 10px;
+  }
+
+  .ux-quick-guide {
+    display: none;
+  }
+
+  .flight-status-panel {
+    padding: 22px 16px;
+  }
+
+  .flight-status-panel .status-left {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .flight-status-panel .status-icon {
+    font-size: 54px;
+  }
+
+  .flight-status-panel .status-text h1 {
+    font-size: 28px;
+  }
+
+  .weather-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  #clima.content {
+    padding: 10px 10px calc(96px + env(safe-area-inset-bottom));
+  }
+
+  #clima .climate-shell {
+    width: 100%;
+    gap: 12px;
+  }
+
+  #clima .climate-top-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  #clima .climate-left-column,
+  #clima .climate-right-column {
+    display: contents;
+  }
+
+  #clima .climate-hero-card-advanced {
+    order: 1;
+  }
+
+  #clima .climate-overview-panel {
+    order: 2;
+  }
+
+  #clima .climate-map-panel-advanced {
+    order: 3;
+  }
+
+  #clima .climate-command-panel {
+    order: 4;
+  }
+
+  #clima .climate-left-column > .panel:not(.climate-command-panel) {
+    order: 5;
+  }
+
+  #clima .panel,
+  #clima .card {
+    margin-top: 0;
+    padding: 14px;
+  }
+
+  #clima .panel-header-line {
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  #clima .panel-header-line h3,
+  #clima .card h2 {
+    font-size: 17px;
+    line-height: 1.25;
+  }
+
+  #clima .panel-helper-text,
+  #clima .map-note,
+  #clima .command-status-text {
+    display: none;
+  }
+
+  #clima .climate-location-label,
+  #clima .climate-summary-text,
+  #clima .current-metric-detail,
+  #clima .detail-card-subtext,
+  #clima .forecast-summary,
+  #clima .hourly-meta-row span,
+  #clima .alert-card p {
+    line-height: 1.45;
+  }
+
+  #clima .climate-hero-card h1 {
+    margin: 10px 0 6px;
+    font-size: clamp(42px, 15vw, 54px);
+    line-height: 1;
+  }
+
+  #clima .climate-hero-head {
+    gap: 12px;
+  }
+
+  #clima .climate-current-icon {
+    font-size: 42px;
+  }
+
+  #clima .climate-now-meta {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  #clima .climate-pill {
+    min-height: 36px;
+    padding: 8px 10px;
+    line-height: 1.2;
+  }
+
+  #clima .climate-hero-stats,
+  #clima .climate-current-grid-extended,
+  #clima .command-status-grid,
+  #clima .analytics-status-grid,
+  #clima .climate-detail-grid-extended,
+  #clima .forecast-week-extended {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #clima .hero-stat-card,
+  #clima .current-metric,
+  #clima .command-status-card,
+  #clima .analytics-status-card,
+  #clima .detail-card,
+  #clima .forecast-card,
+  #clima .hourly-card,
+  #clima .provider-card,
+  #clima .historical-card,
+  #clima .alert-card {
+    min-height: auto;
+    min-width: 0;
+    padding: 12px;
+  }
+
+  #clima .hero-stat-card strong,
+  #clima .current-metric-value,
+  #clima .analytics-status-card strong,
+  #clima .detail-card-value,
+  #clima .forecast-max {
+    font-size: clamp(20px, 6vw, 26px);
+    overflow-wrap: anywhere;
+  }
+
+  #clima .hero-stat-label,
+  #clima .current-metric-label,
+  #clima .detail-card-label,
+  #clima .analytics-status-label,
+  #clima .command-status-label,
+  #clima .forecast-day,
+  #clima .forecast-date {
+    letter-spacing: 0.04em;
+    overflow-wrap: anywhere;
+  }
+
+  #clima .climate-search-row,
+  #clima .command-actions,
+  #clima .map-control-strip,
+  #clima .chart-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  #clima .toolbar-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  #clima .climate-action-btn,
+  #clima .layer-btn,
+  #clima .weather-layer-btn,
+  #clima .chart-mode-btn,
+  #clima .chart-range-btn,
+  #clima .climate-select,
+  #clima .climate-search-input,
+  #clima .search-result-item {
+    min-height: 48px;
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  #clima .climate-map-panel-advanced {
+    padding: 0 0 14px;
+  }
+
+  #clima .climate-map-panel-advanced > .panel-header-line,
+  #clima .climate-map-panel-advanced > .climate-map-toolbar,
+  #clima .climate-map-panel-advanced > .map-control-strip,
+  #clima .climate-map-panel-advanced > .map-note {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .map-viewport-shell {
+    min-height: 340px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #clima #map {
+    height: min(58dvh, 460px);
+    min-height: 340px;
+  }
+
+  .map-ux-hud {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .ux-hud-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .ux-hud-item {
+    min-width: 0;
+    min-height: 44px;
+  }
+
+  .ux-hud-label,
+  .ux-hud-value {
+    overflow-wrap: anywhere;
+  }
+
+  #clima .climate-chart-panel .chart-stage {
+    min-height: 260px;
+  }
+
+  #clima .climate-chart-canvas {
+    height: 260px !important;
+  }
+
+  #clima .hourly-timeline {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+  }
+
+  #clima .hourly-card {
+    flex: 0 0 min(74vw, 260px);
+    scroll-snap-align: start;
+  }
+
+  #clima .provider-status-grid,
+  #clima .historical-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mission-bottom-sheet {
+    max-height: min(78dvh, 640px);
+    padding: 10px 12px calc(92px + env(safe-area-inset-bottom));
+    border-radius: 18px 18px 0 0;
+    transform: translateY(calc(100% - 78px));
+  }
+
+  .mission-bottom-sheet.is-expanded {
+    transform: translateY(0);
+  }
+
+  .ux-sheet-handle {
+    min-height: 24px;
+    margin-bottom: 10px;
+  }
+
+  .ux-sheet-grid,
+  .ux-weather-grid,
+  .ux-source-grid,
+  .ux-mini-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ux-sheet-card,
+  .ux-weather-card,
+  .ux-source-card,
+  .ux-mini-stat {
+    min-height: 84px;
+    padding: 12px;
+  }
+
+  .ux-bottom-nav {
+    left: 10px;
+    right: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    gap: 6px;
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  .ux-bottom-nav button {
+    display: flex;
+    min-width: 0;
+    min-height: 58px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 14px;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .ux-bottom-nav button::before {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    place-items: center;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.78);
+    font-size: 13px;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 440px) {
+  #clima.content {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  #clima .climate-hero-stats,
+  #clima .command-status-grid,
+  #clima .analytics-status-grid,
+  #clima .climate-detail-grid-extended {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #clima .climate-current-grid-extended,
+  #clima .forecast-week-extended {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #clima .toolbar-group,
+  .ux-sheet-grid,
+  .ux-weather-grid,
+  .ux-source-grid,
+  .ux-mini-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #clima .current-metric,
+  #clima .forecast-card {
+    padding: 10px;
+  }
+
+  #clima .forecast-card {
+    gap: 8px;
+  }
+
+  #clima .forecast-summary {
+    display: none;
+  }
+
+  #clima #map {
+    height: 360px;
+    min-height: 320px;
+  }
+
+  .ux-hud-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ux-bottom-nav {
+    left: 8px;
+    right: 8px;
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .ux-bottom-nav button {
+    min-height: 54px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Climate panel refresh: compact, map-first, source details on demand */
+#clima.content {
+  background:
+    radial-gradient(circle at 16% 0%, rgba(20, 184, 166, 0.1), transparent 28%),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.18), rgba(3, 7, 18, 0.58));
+}
+
+#clima .climate-top-grid {
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 16px;
+}
+
+#clima .climate-left-column,
+#clima .climate-right-column {
+  gap: 14px;
+}
+
+#clima .panel,
+#clima .card {
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(10, 18, 32, 0.92), rgba(6, 12, 24, 0.96));
+  border-color: rgba(148, 163, 184, 0.16);
+}
+
+#clima .climate-hero-card-advanced {
+  padding: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(34, 211, 238, 0.2), transparent 30%),
+    linear-gradient(145deg, #07111f 0%, #0b2a3d 44%, #111827 100%);
+}
+
+#clima .climate-hero-card h1 {
+  margin: 14px 0 4px;
+  font-size: clamp(50px, 5.4vw, 78px);
+  letter-spacing: 0;
+}
+
+#clima .climate-hero-card > p:not(.climate-summary-text),
+#clima .feels-line {
+  color: rgba(226, 232, 240, 0.82);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#clima .climate-summary-text {
+  max-width: 34ch;
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(203, 213, 225, 0.82);
+}
+
+#clima .climate-now-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+#clima .climate-pill {
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#clima .climate-hero-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+#clima .hero-stat-card {
+  min-height: 86px;
+  padding: 11px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.58);
+}
+
+#clima .hero-stat-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+#clima .hero-more-btn,
+#clima .climate-modal-close {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.44);
+  color: #e2e8f0;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+#clima .hero-more-btn:hover,
+#clima .climate-modal-close:hover {
+  color: #fff;
+  border-color: rgba(56, 189, 248, 0.5);
+  background: rgba(14, 165, 233, 0.18);
+}
+
+#clima .hero-stat-card strong {
+  font-size: clamp(22px, 3vw, 32px);
+}
+
+#clima .hero-stat-note {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  color: rgba(203, 213, 225, 0.68);
+  font-size: 11px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#clima .climate-map-panel-advanced {
+  order: -2;
+  min-height: 0;
+}
+
+#clima .climate-map-panel-advanced > .panel-header-line {
+  padding: 14px 16px 0;
+  margin-bottom: 10px;
+}
+
+#clima .climate-map-toolbar.dual {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding-bottom: 0;
+}
+
+#clima .toolbar-group {
+  gap: 6px;
+}
+
+#clima .layer-btn,
+#clima .weather-layer-btn,
+#clima .map-control-strip .climate-action-btn,
+#clima .map-control-strip .climate-select {
+  min-height: 34px;
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+#clima .weather-layer-btn {
+  flex: 0 0 auto;
+}
+
+#clima .map-control-strip {
+  margin: 10px 0 12px;
+  padding-bottom: 0;
+}
+
+#clima .map-frame-label {
+  min-height: 34px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.map-viewport-shell {
+  min-height: 680px;
+}
+
+#clima #map {
+  height: min(74vh, 820px);
+  min-height: 680px;
+}
+
+#clima .climate-current-grid-extended {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#clima .current-metric {
+  position: relative;
+  min-height: 94px;
+  padding: 13px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#clima .current-metric::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: #38bdf8;
+  opacity: 0.82;
+}
+
+#clima .current-metric:nth-child(2)::before { background: #22c55e; }
+#clima .current-metric:nth-child(3)::before { background: #60a5fa; }
+#clima .current-metric:nth-child(6)::before { background: #f59e0b; }
+#clima .current-metric:nth-child(8)::before { background: #a78bfa; }
+
+#clima .current-metric-value {
+  margin-top: 7px;
+  font-size: clamp(21px, 2.4vw, 30px);
+}
+
+#clima .current-metric-detail {
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#clima .climate-analytics-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#clima .analytics-status-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+#clima .analytics-status-card {
+  min-height: 92px;
+  border-radius: 8px;
+}
+
+#clima .analytics-status-card span:not(.analytics-status-label),
+#clima .provider-status-grid {
+  display: none;
+}
+
+#clima .climate-command-panel .command-status-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#clima .command-status-card {
+  min-height: 82px;
+  border-radius: 8px;
+}
+
+#clima .climate-modal-backdrop[hidden] {
+  display: none;
+}
+
+#clima .climate-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1800;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(2, 6, 23, 0.68);
+  backdrop-filter: blur(10px);
+}
+
+#clima .climate-modal {
+  width: min(720px, 100%);
+  max-height: min(82vh, 720px);
+  overflow: auto;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(8, 15, 30, 0.98), rgba(3, 7, 18, 0.98));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+}
+
+#clima .climate-modal-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  background: rgba(8, 15, 30, 0.96);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+#clima .climate-modal-head h3 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 18px;
+}
+
+#clima .climate-modal-head p {
+  margin-top: 4px;
+  color: rgba(203, 213, 225, 0.74);
+  font-size: 13px;
+}
+
+#clima .reliability-source-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+}
+
+#clima .reliability-source-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.72);
+}
+
+#clima .reliability-source-card.online {
+  border-color: rgba(34, 197, 94, 0.28);
+}
+
+#clima .reliability-source-card.partial,
+#clima .reliability-source-card.reference {
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+#clima .reliability-source-card div,
+#clima .reliability-source-card dl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#clima .reliability-source-card strong {
+  color: #f8fafc;
+  font-size: 15px;
+}
+
+#clima .reliability-source-card span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+#clima .reliability-source-card p,
+#clima .reliability-source-card dt {
+  color: rgba(203, 213, 225, 0.72);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+#clima .reliability-source-card dd {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+@media (max-width: 1400px) {
+  #clima .climate-top-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #clima .climate-left-column {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+
+  #clima .climate-map-panel-advanced {
+    order: initial;
+  }
+}
+
+@media (max-width: 768px) {
+  #clima .climate-hero-stats,
+  #clima .climate-current-grid-extended,
+  #clima .analytics-status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #clima .climate-map-toolbar.dual {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #clima .toolbar-group {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  #clima .layer-btn,
+  #clima .weather-layer-btn {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 66px;
+  }
+
+  #clima .map-control-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .map-viewport-shell,
+  #clima #map {
+    min-height: 420px;
+  }
+
+  #clima #map {
+    height: min(62dvh, 540px);
+  }
+
+  #clima .climate-summary-text,
+  #clima .hero-stat-note,
+  #clima .current-metric-detail,
+  #clima .command-status-text {
+    display: none;
+  }
+
+  #clima .reliability-source-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 440px) {
+  #clima .climate-hero-stats,
+  #clima .analytics-status-grid,
+  #clima .map-control-strip {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #clima .climate-current-grid-extended {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #clima .climate-pill {
+    font-size: 11px;
+  }
+
+  #clima .climate-modal-backdrop {
+    align-items: end;
+    padding: 10px;
+  }
+
+  #clima .climate-modal {
+    max-height: 86dvh;
+  }
+}
+
+/* Reference-style climate dashboard shell */
+body {
+  background:
+    radial-gradient(circle at 68% -10%, rgba(37, 99, 235, 0.16), transparent 34%),
+    radial-gradient(circle at 12% 12%, rgba(14, 165, 233, 0.1), transparent 32%),
+    #020711;
+}
+
+.tabs {
+  display: none;
+}
+
+#clima.content.active {
+  display: grid;
+}
+
+#clima.content {
+  grid-template-columns: 238px minmax(0, 1fr);
+  gap: 0;
+  min-height: 100vh;
+  padding: 14px 16px 28px;
+  color: #f8fafc;
+  background:
+    linear-gradient(90deg, rgba(6, 13, 25, 0.96), rgba(3, 8, 17, 0.96)),
+    #020711;
+}
+
+#clima .climate-app-sidebar,
+#clima .climate-shell {
+  border: 1px solid rgba(125, 155, 190, 0.2);
+  background: linear-gradient(180deg, rgba(8, 18, 34, 0.86), rgba(3, 10, 20, 0.9));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 24px 70px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px);
+}
+
+#clima .climate-app-sidebar {
+  position: sticky;
+  top: 14px;
+  z-index: 20;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  width: 100%;
+  height: calc(100vh - 28px);
+  padding: 22px 18px;
+  border-radius: 18px 0 0 18px;
+  border-right: 0;
+}
+
+#clima .mobile-quick-actions,
+#clima .mobile-confidence-meter,
+#clima .mobile-map-expand {
+  display: none;
+}
+
+#clima .climate-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f8fafc;
+  font-size: 16px;
+}
+
+#clima .climate-brand-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #58a6ff;
+  border: 1px solid rgba(59, 130, 246, 0.42);
+  border-radius: 10px;
+  background: rgba(20, 72, 148, 0.24);
+}
+
+#clima .climate-side-nav {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  margin-top: 34px;
+}
+
+#clima .climate-side-nav a,
+#clima .climate-bottom-nav a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+#clima .climate-side-nav a {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#clima .climate-side-nav a span {
+  color: #8dbbff;
+  font-size: 19px;
+}
+
+#clima .climate-side-nav a.active,
+#clima .climate-side-nav a:hover {
+  color: #dbeafe;
+  border-color: rgba(59, 130, 246, 0.32);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.5), rgba(29, 78, 216, 0.18));
+}
+
+#clima .climate-sidebar-update {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  align-items: center;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+#clima .climate-sidebar-update span {
+  grid-row: span 2;
+  color: #3b82f6;
+  font-size: 22px;
+}
+
+#clima .climate-sidebar-update strong {
+  color: #f8fafc;
+  font-size: 13px;
+}
+
+#clima .climate-mobile-topbar,
+#clima .climate-bottom-nav {
+  display: none;
+}
+
+#clima .climate-shell {
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 22px 24px;
+  border-radius: 0 18px 18px 0;
+}
+
+#clima .climate-desktop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+#clima .climate-desktop-header h1 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+#clima .climate-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#clima .climate-location-select,
+#clima .climate-header-actions button,
+#clima .climate-mobile-topbar button,
+#clima .climate-mobile-topbar strong {
+  min-height: 44px;
+  border: 1px solid rgba(125, 155, 190, 0.16);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(13, 29, 51, 0.88), rgba(8, 18, 34, 0.9));
+  color: #f8fafc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+#clima .climate-location-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 236px;
+  padding: 0 16px;
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+#clima .climate-header-actions button {
+  width: 48px;
+  cursor: pointer;
+}
+
+#clima .climate-top-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+#clima .climate-left-column,
+#clima .climate-right-column {
+  display: contents;
+}
+
+#clima .panel,
+#clima .card,
+#clima .hero-stat-card,
+#clima .current-metric,
+#clima .provider-card,
+#clima .hourly-card,
+#clima .forecast-card,
+#clima .historical-card,
+#clima .alert-card {
+  border-radius: 12px;
+  border: 1px solid rgba(125, 155, 190, 0.18);
+  background: linear-gradient(180deg, rgba(10, 24, 43, 0.88), rgba(5, 14, 27, 0.94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 46px rgba(0, 0, 0, 0.24);
+}
+
+#clima .climate-hero-card-advanced {
+  display: grid;
+  grid-template-columns: 74px 1fr minmax(275px, 0.78fr);
+  grid-template-areas:
+    "icon temp stats"
+    "icon summary stats"
+    "meta meta stats";
+  column-gap: 18px;
+  min-height: 214px;
+  padding: 26px 26px 20px;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(56, 189, 248, 0.11), transparent 25%),
+    linear-gradient(142deg, rgba(9, 21, 40, 0.96), rgba(5, 15, 30, 0.98));
+}
+
+#clima .climate-hero-head {
+  display: contents;
+}
+
+#clima .climate-hero-head > div:first-child {
+  display: contents;
+}
+
+#clima .climate-current-icon {
+  grid-area: icon;
+  align-self: center;
+  font-size: 58px;
+  filter: drop-shadow(0 0 22px rgba(250, 204, 21, 0.28));
+}
+
+#clima .climate-hero-card h2 {
+  display: none;
+}
+
+#clima .climate-location-label {
+  display: none;
+}
+
+#clima .climate-hero-card h1 {
+  grid-area: temp;
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(52px, 5vw, 66px);
+  font-weight: 850;
+  line-height: 1;
+}
+
+#clima .climate-hero-card > p:not(.climate-summary-text) {
+  grid-area: summary;
+  align-self: end;
+  margin-top: 45px;
+  color: #a9b5c5;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#clima .climate-summary-text {
+  grid-area: temp;
+  align-self: center;
+  margin-left: 146px;
+  margin-top: 18px;
+  color: #cbd5e1;
+  font-size: 15px;
+}
+
+#clima .climate-now-meta {
+  grid-area: meta;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(125, 155, 190, 0.16);
+}
+
+#clima .climate-pill {
+  justify-content: flex-start;
+  min-height: 54px;
+  padding: 8px 24px;
+  border-radius: 0;
+  border-right: 1px solid rgba(125, 155, 190, 0.14);
+  background: transparent;
+  color: #dbeafe;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+#clima .climate-pill:last-child {
+  border-right: 0;
+}
+
+#clima .climate-hero-stats {
+  grid-area: stats;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 0;
+}
+
+#clima .hero-stat-card {
+  min-height: 92px;
+  padding: 18px 18px 16px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(10, 24, 43, 0.9), rgba(5, 14, 27, 0.96));
+}
+
+#clima .hero-stat-card:nth-child(3) {
+  display: none;
+}
+
+#clima .hero-stat-label,
+#clima .analytics-status-label,
+#clima .current-metric-label {
+  color: #f8fafc;
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+#clima .hero-more-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  font-size: 17px;
+}
+
+#clima .hero-stat-card strong {
+  margin-top: 8px;
+  color: #f8fafc;
+  font-size: 34px;
+  line-height: 1;
+}
+
+#clima #confidenceChip::after {
+  content: '';
+  display: block;
+  height: 6px;
+  margin-top: 13px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38d76a 0%, #38d76a 92%, rgba(148, 163, 184, 0.22) 92%);
+}
+
+#clima .hero-stat-card:nth-child(2)::after {
+  content: '';
+  display: block;
+  height: 28px;
+  margin-top: 8px;
+  background:
+    linear-gradient(135deg, transparent 42%, #f97316 43%, #f97316 47%, transparent 48%) 0 8px / 42px 18px repeat-x;
+  opacity: 0.95;
+}
+
+#clima .hero-stat-note {
+  color: #94a3b8;
+  font-size: 12px;
+  white-space: normal;
+}
+
+#clima .climate-overview-panel {
+  display: none;
+}
+
+#clima .climate-map-panel-advanced {
+  position: relative;
+  order: 2;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+#clima .climate-map-panel-advanced > .panel-header-line,
+#clima .climate-map-panel-advanced > .map-note {
+  display: none;
+}
+
+#clima .climate-map-toolbar.dual {
+  position: absolute;
+  right: 18px;
+  top: 50px;
+  z-index: 650;
+  display: flex;
+  flex-direction: column;
+  width: 126px;
+  padding: 0;
+  gap: 10px;
+}
+
+#clima #mapLayerToggle {
+  display: none;
+}
+
+#clima #weatherLayerToggle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+#clima .weather-layer-btn {
+  width: 100%;
+  min-height: 46px;
+  justify-content: center;
+  border-radius: 10px;
+  border-color: rgba(125, 155, 190, 0.18);
+  background: rgba(5, 16, 31, 0.9);
+  color: #e2e8f0;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+#clima .weather-layer-btn:not([data-weather-layer="radar"]):not([data-weather-layer="precipitation"]):not([data-weather-layer="wind"]):not([data-weather-layer="temperature"]):not([data-weather-layer="drone"]):not([data-weather-layer="satellite"]) {
+  display: none;
+}
+
+#clima .map-control-strip {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  right: 18px;
+  z-index: 640;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+#clima .map-control-strip > *:not(.map-frame-label) {
+  display: none;
+}
+
+#clima .map-frame-label {
+  pointer-events: auto;
+  color: #f8fafc;
+  background: rgba(5, 14, 27, 0.82);
+  border-color: rgba(125, 155, 190, 0.18);
+}
+
+.map-viewport-shell,
+#clima #map {
+  min-height: 365px;
+}
+
+#clima #map {
+  height: min(45vh, 405px);
+  border: 0;
+}
+
+.map-ux-hud,
+.mission-dashboard,
+.ux-layer-bank,
+.ux-quick-guide {
+  display: none !important;
+}
+
+#clima .leaflet-control-zoom {
+  margin-left: 18px;
+  margin-top: 154px;
+  border: 1px solid rgba(125, 155, 190, 0.18);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(5, 14, 27, 0.76);
+}
+
+#clima .leaflet-control-zoom a {
+  width: 42px;
+  height: 42px;
+  line-height: 42px;
+  color: #f8fafc;
+  background: transparent;
+  border-color: rgba(125, 155, 190, 0.12);
+}
+
+#clima .provider-status-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+#clima .analytics-status-grid {
+  display: none;
+}
+
+#clima .climate-analytics-grid {
+  order: 4;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.2fr);
+  gap: 28px;
+}
+
+#clima .climate-analytics-grid > .panel {
+  min-height: 220px;
+}
+
+#clima .provider-card {
+  min-height: 0;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: rgba(12, 28, 48, 0.72);
+}
+
+#clima .provider-card-head strong {
+  font-size: 13px;
+}
+
+#clima .provider-card-head span {
+  color: #4ade80;
+  background: transparent;
+  font-size: 12px;
+}
+
+#clima .provider-card-metrics,
+#clima .provider-card p {
+  display: none;
+}
+
+#clima .historical-summary {
+  grid-template-columns: 1fr;
+}
+
+#clima .climate-chart-panel {
+  display: none;
+}
+
+#clima .panel:has(#hourlyTimeline) {
+  order: 5;
+}
+
+#clima .hourly-timeline {
+  grid-auto-columns: minmax(116px, 1fr);
+}
+
+#clima .hourly-card {
+  min-height: 154px;
+  align-items: center;
+  text-align: center;
+}
+
+#clima .panel:has(#forecastWeek),
+#clima .climate-detail-panel,
+#clima .climate-command-panel,
+#clima .climate-left-column > .panel:has(#climateInsights) {
+  margin-top: 0;
+}
+
+#clima .climate-command-panel {
+  order: 6;
+}
+
+#clima .climate-left-column > .panel:has(#climateInsights) {
+  order: 7;
+}
+
+#clima .climate-left-column > .panel:has(#alertStream) {
+  order: 8;
+}
+
+#clima .climate-left-column > .panel:has(#alertStream) .alert-card {
+  border-color: rgba(34, 197, 94, 0.32);
+  background: linear-gradient(180deg, rgba(8, 77, 48, 0.5), rgba(5, 35, 27, 0.9));
+}
+
+#clima .climate-detail-panel {
+  order: 10;
+}
+
+#clima .panel:has(#forecastWeek) {
+  order: 9;
+}
+
+@media (min-width: 1101px) {
+  #clima .panel:has(#hourlyTimeline) {
+    grid-column: 2;
+    margin-top: -248px;
+    margin-left: 304px;
+  }
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  #clima.content {
+    display: block;
+    padding: 0 0 88px;
+    background: #020711;
+  }
+
+  #clima .climate-app-sidebar,
+  #clima .climate-desktop-header,
+  #clima .climate-command-panel,
+  #clima .climate-left-column > .panel:has(#climateInsights),
+  #clima .panel:has(#hourlyTimeline),
+  #clima .climate-detail-panel {
+    display: none;
+  }
+
+  #clima .climate-mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto 44px;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 14px 12px;
+    background: rgba(3, 8, 17, 0.9);
+    border-bottom: 1px solid rgba(96, 165, 250, 0.14);
+    backdrop-filter: blur(18px);
+  }
+
+  #clima .climate-mobile-topbar button {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+  }
+
+  #clima .mobile-brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  #clima .mobile-brand-icon {
+    display: grid;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 14px;
+    color: #7dd3fc;
+    border: 1px solid rgba(96, 165, 250, 0.28);
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(37, 99, 235, 0.14));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  #clima .mobile-brand-lockup strong,
+  #clima .mobile-brand-lockup span {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #clima .mobile-brand-lockup strong {
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #f8fafc;
+    font-size: 14px;
+    line-height: 1.1;
+  }
+
+  #clima .mobile-brand-lockup span {
+    margin-top: 3px;
+    color: #8aa4c6;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  #clima .mobile-location-pill {
+    max-width: 128px;
+    min-width: 0;
+    overflow: hidden;
+    padding: 9px 10px;
+    border: 1px solid rgba(96, 165, 250, 0.24);
+    border-radius: 999px;
+    color: #dbeafe;
+    background: rgba(15, 23, 42, 0.72);
+    font-size: 12px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #clima .climate-shell {
+    display: grid;
+    gap: 14px;
+    padding: 14px 14px 112px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  #clima .climate-top-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  #clima .climate-left-column,
+  #clima .climate-right-column {
+    display: contents;
+  }
+
+  #clima .climate-hero-card-advanced {
+    order: 1;
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr);
+    grid-template-areas:
+      "icon temp"
+      "icon summary"
+      "meta meta"
+      "stats stats";
+    min-height: 0;
+    padding: 22px 18px 18px;
+    border-radius: 26px;
+  }
+
+  #clima .climate-current-icon {
+    font-size: 44px;
+  }
+
+  #clima .climate-hero-card h1 {
+    font-size: 42px;
+  }
+
+  #clima .climate-summary-text {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  #clima .climate-hero-card > p:not(.climate-summary-text) {
+    margin-top: 36px;
+    font-size: 13px;
+  }
+
+  #clima .climate-now-meta {
+    margin-top: 18px;
+    padding-top: 16px;
+  }
+
+  #clima .climate-pill {
+    min-height: 48px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  #clima .climate-hero-stats {
+    margin-top: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #clima .hero-stat-card:nth-child(3) {
+    display: none;
+  }
+
+  #clima .mobile-confidence-meter {
+    display: block;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.58);
+  }
+
+  #clima .mobile-confidence-meter span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #22c55e, #86efac);
+    transition: width 260ms ease;
+  }
+
+  #clima .mobile-quick-actions {
+    order: 2;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #clima .mobile-quick-actions a {
+    display: flex;
+    min-width: 0;
+    min-height: 56px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    border-radius: 18px;
+    color: #f8fafc;
+    background: linear-gradient(180deg, rgba(15, 28, 52, 0.94), rgba(7, 15, 30, 0.94));
+    box-shadow: 0 16px 32px rgba(2, 6, 23, 0.22);
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  #clima .mobile-quick-actions span {
+    color: #60a5fa;
+    font-size: 19px;
+  }
+
+  #clima .climate-map-panel-advanced {
+    order: 3;
+    border-radius: 24px;
+  }
+
+  #clima .climate-map-panel-advanced > .panel-header-line .panel-helper-text {
+    font-size: 0;
+  }
+
+  #clima .climate-map-panel-advanced > .panel-header-line .panel-helper-text::after {
+    content: "Visualização atual da região";
+    font-size: 12px;
+  }
+
+  #clima .climate-overview-panel {
+    order: 4;
+  }
+
+  #clima .mobile-map-expand {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    margin-left: auto;
+    border: 1px solid rgba(96, 165, 250, 0.24);
+    border-radius: 12px;
+    color: #bfdbfe;
+    background: rgba(15, 23, 42, 0.62);
+    text-decoration: none;
+  }
+
+  #clima #map {
+    height: 300px;
+    min-height: 300px;
+  }
+
+  .map-viewport-shell {
+    min-height: 300px;
+  }
+
+  #clima .climate-map-toolbar.dual {
+    right: 10px;
+    top: 18px;
+    width: 44px;
+  }
+
+  #clima #weatherLayerToggle {
+    gap: 8px;
+  }
+
+  #clima .weather-layer-btn {
+    min-width: 44px;
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+    overflow: hidden;
+    color: transparent;
+  }
+
+  #clima .weather-layer-btn::first-letter {
+    color: #e2e8f0;
+  }
+
+  #clima .map-control-strip {
+    display: none;
+  }
+
+  #clima .climate-left-column > .panel:has(#alertStream) {
+    display: block;
+    order: 5;
+  }
+
+  #clima .climate-bottom-nav {
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    z-index: 1400;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid rgba(125, 155, 190, 0.18);
+    border-radius: 18px;
+    background: rgba(4, 13, 25, 0.95);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(18px);
+  }
+
+  #clima .climate-bottom-nav a {
+    display: grid;
+    place-items: center;
+    gap: 4px;
+    min-height: 52px;
+    border-radius: 12px;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  #clima .climate-bottom-nav a span {
+    color: #93c5fd;
+    font-size: 20px;
+  }
+
+  #clima .climate-bottom-nav a.active {
+    color: #3b82f6;
+  }
+}
+
+@media (max-width: 420px) {
+  #clima .climate-shell {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  #clima .climate-hero-card-advanced {
+    padding: 18px 14px;
+  }
+
+  #clima .climate-pill {
+    font-size: 12px;
+  }
+
+  #clima .climate-hero-stats,
+  #clima .mobile-quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  #clima .mobile-location-pill {
+    max-width: 102px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  #clima .mobile-quick-actions,
+  #clima .mobile-confidence-meter,
+  #clima .mobile-map-expand {
+    display: none;
+  }
+}
+
+@media (min-width: 1025px) {
+  #clima .mobile-quick-actions,
+  #clima .mobile-confidence-meter,
+  #clima .mobile-map-expand {
+    display: none;
+  }
+}
+
+/* Drone and satellite tabs integrated into the same premium shell */
+#drone.content.active,
+#satellite.content.active {
+  display: grid;
+  grid-template-columns: 238px minmax(0, 1fr);
+  gap: 0;
+  min-height: 100vh;
+  padding: 14px 16px 28px;
+  color: #f8fafc;
+  background:
+    radial-gradient(circle at 82% -8%, rgba(37, 99, 235, 0.18), transparent 34%),
+    linear-gradient(90deg, rgba(6, 13, 25, 0.96), rgba(3, 8, 17, 0.96)),
+    #020711;
+}
+
+#drone .climate-app-sidebar,
+#satellite .climate-app-sidebar {
+  position: sticky;
+  top: 14px;
+  z-index: 20;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  width: 100%;
+  height: calc(100vh - 28px);
+  padding: 22px 18px;
+  border: 1px solid rgba(125, 155, 190, 0.2);
+  border-right: 0;
+  border-radius: 18px 0 0 18px;
+  background: linear-gradient(180deg, rgba(8, 18, 34, 0.86), rgba(3, 10, 20, 0.9));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 24px 70px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px);
+}
+
+#drone .climate-mobile-topbar,
+#satellite .climate-mobile-topbar {
+  display: none;
+}
+
+#drone .climate-brand,
+#satellite .climate-brand,
+#drone .climate-side-nav,
+#satellite .climate-side-nav,
+#drone .climate-sidebar-update,
+#satellite .climate-sidebar-update {
+  /* Reuse the visual vocabulary from the climate sidebar in non-climate tabs. */
+}
+
+#drone .climate-brand,
+#satellite .climate-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f8fafc;
+  font-size: 16px;
+}
+
+#drone .climate-brand-icon,
+#satellite .climate-brand-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #58a6ff;
+  border: 1px solid rgba(59, 130, 246, 0.42);
+  border-radius: 10px;
+  background: rgba(20, 72, 148, 0.24);
+}
+
+#drone .climate-side-nav,
+#satellite .climate-side-nav {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  margin-top: 34px;
+}
+
+#drone .climate-side-nav a,
+#satellite .climate-side-nav a {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#drone .climate-side-nav a.active,
+#drone .climate-side-nav a:hover,
+#satellite .climate-side-nav a.active,
+#satellite .climate-side-nav a:hover {
+  color: #dbeafe;
+  border-color: rgba(59, 130, 246, 0.32);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.5), rgba(29, 78, 216, 0.18));
+}
+
+#drone .climate-sidebar-update,
+#satellite .climate-sidebar-update {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  align-items: center;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+#drone .climate-sidebar-update span,
+#satellite .climate-sidebar-update span {
+  grid-row: span 2;
+  color: #3b82f6;
+  font-size: 22px;
+}
+
+#drone .climate-sidebar-update strong,
+#satellite .climate-sidebar-update strong {
+  color: #f8fafc;
+  font-size: 13px;
+}
+
+#drone .drone-container,
+#satellite #satellite-system {
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 22px 24px;
+  border: 1px solid rgba(125, 155, 190, 0.2);
+  border-left: 0;
+  border-radius: 0 18px 18px 0;
+  background: linear-gradient(180deg, rgba(8, 18, 34, 0.86), rgba(3, 10, 20, 0.9));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 24px 70px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px);
+}
+
+#drone .flight-status-panel,
+#drone .location-card,
+#drone .analysis-card,
+#drone .recommendations-card,
+#drone .weather-metric-card,
+#drone .update-timestamp,
+#satellite .satellite-map-card,
+#satellite .satellite-panel,
+#satellite .satellite-floating-card,
+#satellite .satellite-stat-card,
+#satellite .satellite-summary-card,
+#satellite .satellite-points-panel,
+#satellite .satellite-tip {
+  border-radius: 12px;
+  border: 1px solid rgba(125, 155, 190, 0.18);
+  background: linear-gradient(180deg, rgba(10, 24, 43, 0.88), rgba(5, 14, 27, 0.94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 46px rgba(0, 0, 0, 0.24);
+}
+
+#drone .drone-container::before,
+#satellite #satellite-system::before {
+  display: block;
+  margin-bottom: 16px;
+  color: #f8fafc;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+#drone .drone-container::before {
+  content: 'Planejamento de voo';
+}
+
+#satellite #satellite-system::before {
+  content: 'Visualização por satélite';
+}
+
+#drone .drone-main-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+}
+
+#drone .flight-status-panel {
+  margin-bottom: 18px;
+  background:
+    radial-gradient(circle at 8% 15%, rgba(34, 197, 94, 0.16), transparent 28%),
+    linear-gradient(180deg, rgba(10, 32, 44, 0.9), rgba(5, 17, 29, 0.96));
+}
+
+#drone #drone-map {
+  min-height: 360px;
+  border-radius: 12px;
+  border: 1px solid rgba(125, 155, 190, 0.18);
+  overflow: hidden;
+}
+
+#drone .weather-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#drone .weather-metric-card {
+  min-height: 118px;
+}
+
+#drone .recommendations-card {
+  margin-top: 18px;
+}
+
+#satellite .satellite-shell {
+  max-width: none;
+  margin: 0;
+}
+
+#satellite .satellite-frame {
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.6fr);
+  gap: 18px;
+}
+
+#satellite .satellite-map,
+#satellite .satellite-map-card {
+  min-height: 560px;
+}
+
+#satellite .satellite-btn {
+  border-radius: 10px;
+  border-color: rgba(125, 155, 190, 0.18);
+  background: rgba(5, 16, 31, 0.9);
+  color: #e2e8f0;
+}
+
+#satellite .satellite-btn:hover,
+#satellite .satellite-btn.is-active {
+  border-color: rgba(59, 130, 246, 0.48);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.56), rgba(14, 165, 233, 0.2));
+  color: #fff;
+}
+
+#clima #map.map-layer-drone::after,
+#clima #map.map-layer-satellite::after {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  z-index: 620;
+  padding: 10px 12px;
+  border: 1px solid rgba(125, 155, 190, 0.2);
+  border-radius: 10px;
+  color: #f8fafc;
+  background: rgba(5, 14, 27, 0.82);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+  font-size: 12px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+#clima #map.map-layer-drone::after {
+  content: 'Drone • área, rota e pontos';
+}
+
+#clima #map.map-layer-satellite::after {
+  content: 'Satélite • nuvens, chuva e vegetação';
+}
+
+#clima #map.map-layer-satellite .leaflet-tile-pane {
+  filter: saturate(1.18) contrast(1.08) brightness(0.82);
+}
+
+#clima #map.map-layer-drone .leaflet-tile-pane {
+  filter: saturate(0.92) contrast(1.08) brightness(0.74);
+}
+
+@media (max-width: 768px) {
+  #drone.content.active,
+  #satellite.content.active {
+    display: block;
+    padding: 0 0 88px;
+  }
+
+  #drone .climate-app-sidebar,
+  #satellite .climate-app-sidebar {
+    display: none;
+  }
+
+  #drone .climate-mobile-topbar,
+  #satellite .climate-mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr) 46px;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 18px;
+    background: rgba(3, 8, 17, 0.92);
+    backdrop-filter: blur(18px);
+  }
+
+  #drone .drone-container,
+  #satellite #satellite-system {
+    padding: 0 14px 18px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  #drone .drone-main-grid,
+  #satellite .satellite-frame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #drone .weather-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #drone #drone-map,
+  #satellite .satellite-map,
+  #satellite .satellite-map-card {
+    min-height: 360px;
+  }
+
+  #clima .weather-layer-btn[data-weather-layer="drone"],
+  #clima .weather-layer-btn[data-weather-layer="satellite"] {
+    display: inline-grid;
+  }
+
+  #clima .climate-bottom-nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  #clima .climate-bottom-nav a {
+    min-height: 50px;
+    font-size: 10px;
+  }
+}
